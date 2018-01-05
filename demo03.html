@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>canvas-demo3</title>
+</head>
+<body>
+	<canvas id="myCanvas"></canvas>
+	<script>
+		var canvas = document.getElementById('myCanvas');
+		var ctx = canvas.getContext('2d');
+		var gradient = ctx.createLinearGradient(0, 0, 150, 100);
+		gradient.addColorStop(0, '#f00');
+		gradient.addColorStop(1, '#ff0');
+		ctx.strokeStyle = gradient;
+		ctx.lineWidth = 10;
+		ctx.strokeRect(0,0,150,100);
+	</script>
+</body>
+</html>

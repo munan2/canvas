@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>canvas-demo-2</title>
+</head>
+<body>
+	<canvas id="myCanvas"></canvas>
+	<script>
+		var canvas = document.getElementById('myCanvas');
+		var ctx = canvas.getContext('2d');
+		var my_gradient = ctx.createLinearGradient(0, 0, 50, 50);
+		my_gradient.addColorStop(0, '#f00');
+		my_gradient.addColorStop(1, '#0f0');
+		ctx.fillStyle = my_gradient;
+		ctx.fillRect(0, 0, 50, 50);
+	</script>
+</body>
+</html>
