@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>指南针</title>
+  <style>
+    .stage {
+      margin: 50px auto;
+      width: 600px;
+    }
+  </style>
+</head>
+<body>
+    <h4>在屏幕上移动鼠标试试</h4>
+    <div class="point">
+      <button id="addDisk">增加三角磁铁</button>
+    </div>
+    <div class="stage">
+      <canvas id="canvas" width="400" height="300" style="background:#333"></canvas>
+    </div>
+    <script>
+      var canvas = document.getElementById('canvas');
+      var ctx = canvas.getContext('2d');
+      /**
+       * @description: 
+       * @param {type} x x坐标位置
+       * @return: 
+       */
+      function Disk (x, y, width, height) {
+        this.x = x
+        this.y = y
+        this.width = width
+        this.height = height
+      }
+      disks = []
+      centerX = canvas.width / 2
+      centerY = canvas.height / 2
+      var addDiskButton = document.getElementById('addDisk')
+      addDiskButton.addEventListener('click', function () {
+        x = Math.random(0, 1) * canvas.width
+        y = Math.random(0, 1) * canvas.height
+        width = 30 + 20 * Math.random(0, 1)
+        height = 5 + 5 * Math.random(0, 1)
+        disks.push(new Disk(x, y, width, height))
+      })
+      var d = new Disk(centerX, centerY, 100, 10)
+      disks.push(d)
+      var point = {
+        x: 100,
+        y: 50
+      }
+      function drawDisk () {
+        ctx.clearRect(0,0,canvas.width,canvas.height)
+        for (var i=0; i<disks.length; i++) {
+          var rotation = Math.atan2(point.y - disks[i].y, point.x - disks[i].x)
+          ctx.beginPath()
+          ctx.fillStyle = '#f00'
+          ctx.arc(point.x, point.y, 5, 0, Math.PI * 180, true)
+          ctx.fill()
+          ctx.save()
+          ctx.translate(disks[i].x, disks[i].y)
+          ctx.rotate(rotation)
+          ctx.beginPath()
+          ctx.fillStyle = '#f00'
+          ctx.moveTo(disks[i].width, 0)
+          ctx.lineTo(0, -disks[i].height)
+          ctx.lineTo(0, disks[i].height)
+          ctx.closePath()
+          ctx.fill()
+          ctx.beginPath()
+          ctx.fillStyle = '#00f'
+          ctx.moveTo(-disks[i].width, 0)
+          ctx.lineTo(0, -disks[i].height)
+          ctx.lineTo(0, disks[i].height)
+          ctx.closePath()
+          ctx.fill()
+          ctx.restore()
+        }
+        requestAnimationFrame(drawDisk)
+      }
+      drawDisk()
+      canvas.addEventListener('mousemove', function (event) {
+        point = {
+          x: event.layerX,
+          y: event.layerY
+        }
+      })
+    </script>
+</body>
+</html>

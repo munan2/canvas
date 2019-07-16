@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>多边形</title>
+  <style>
+    .stage {
+      margin: 50px auto;
+      width: 500px;
+      background: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="set-div">
+    <span>边数<input type="number" min="3" value="5" id="num"></span>
+    <span><input type="checkbox" id="border" checked>展示边框</span>
+    <span><input type="checkbox" id="radius" checked>展示对角</span>
+    <button id="submit">确定</button>
+  </div>
+  <div class="stage">
+    <canvas id="canvas" width="500" height="300"></canvas>
+  </div>
+  <script src="../js/Polygon.js"></script>
+  <script>
+    var numDom = document.getElementById('num')
+    var borderDom = document.getElementById('border')
+    var radiusDom = document.getElementById('radius')
+    var submit = document.getElementById('submit')
+    var canvas = document.getElementById('canvas')
+    submit.addEventListener('click', function () {
+      var num = numDom.value
+      var border = borderDom.checked
+      var radius = radiusDom.checked
+      setting(num, border, radius)
+    })
+    /**
+     * @description: 解决canvas模糊问题
+     * @param canvas {Object} canvas DOM对象
+     * @return: ctx canvas上下文
+     */
+     function setupCanvas(canvas) {
+      var dpr = window.devicePixelRatio || 1
+      var rect = canvas.getBoundingClientRect()
+      canvas.style.width = canvas.width + 'px'
+      canvas.style.height = canvas.height + 'px'
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      var ctx = canvas.getContext('2d');
+      ctx.scale(dpr, dpr);
+      return ctx;
+    }
+    var ctx = setupCanvas(canvas)
+    function setting (num, isBorder, isRadius) {
+      ctx.clearRect(0, 0, canvas.width,canvas.height)
+      var myPolygon = new Polygon({x: 60, y: 60}, parseInt(num), 60, [])
+      ctx.strokeStyle = '#fff'
+      if (isBorder) myPolygon.showBorder(ctx)
+      if (isRadius) myPolygon.showRadius(ctx)
+    }
+    setting(5, true, true)
+  </script>
+</body>
+</html>
